@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:title" content="Asteron — Your AI Trader">
+<meta property="og:description" content="You're the boss. You set the plan. Asteron executes.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#05060b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2305060b'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%23d9c49c' stroke-opacity='.45'/%3E%3Ccircle cx='16' cy='16' r='3.2' fill='%23fff8e8'/%3E%3C/svg%3E">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Asteron — Your AI Trader</title>
+<meta name="description" content="Asteron — your AI trader. Now available.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400&family=Michroma&family=Noto+Sans+SC:wght@300;400;500&family=Noto+Sans+TC:wght@300;400;500&family=Noto+Serif+SC:wght@200;300;500&family=Noto+Serif+TC:wght@200;300;500&display=swap">
+<style>
+/* Layout: launch-day product page. Sticky product nav; landing = the trader's staff badge (tilts with the pointer); one screen per selling point whose visual is scrubbed by scroll; final screen opens the app. */
+:root{
+  --ink:#05060b; --card:rgba(14,16,26,.78); --star:#eef1f8; --mist:#8c93a6; --dim:#2c3140; --gold:#d9c49c; --ok:#9fd4b0; --no:#d99a9a; --line:rgba(238,241,248,.1);
+  --f-display:"Noto Serif SC","Songti SC","STSong",Georgia,serif;
+  --f-body:"Noto Sans SC","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;
+  --f-mark:"Michroma","Eurostile","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --spring:cubic-bezier(.2,.8,.2,1);
+  color-scheme:dark;
+}
+:root:lang(zh-Hant){--f-display:"Noto Serif TC","Songti TC",Georgia,serif;--f-body:"Noto Sans TC","PingFang TC",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{background:var(--ink);scroll-behavior:smooth}
+body{background:var(--ink);color:var(--star);font-family:var(--f-body);font-weight:300;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+#sky{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+main,header,footer{position:relative;z-index:1}
+.g{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+:focus-visible{outline:1px solid var(--gold);outline-offset:4px}
+.mono{font-family:var(--f-mono)}
+section[id]{scroll-margin-top:56px}
+
+/* sticky product nav */
+.nav{position:sticky;top:0;padding-top:env(safe-area-inset-top,0px);z-index:5;background:rgba(5,6,11,.62);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line)}
+.nav .in{display:flex;align-items:center;justify-content:space-between;gap:16px;height:52px;max-width:1120px;margin:0 auto}
+.mark{font-family:var(--f-mark);font-size:13px;letter-spacing:.42em;text-decoration:none}
+.links{display:flex;gap:26px;font-size:13px}
+.links a{text-decoration:none;color:var(--mist);transition:color .3s}
+.links a:hover,.links a[aria-current="true"]{color:var(--star)}
+.right{display:flex;align-items:center;gap:12px}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;padding:2px}
+.lang button{background:none;border:0;color:var(--mist);font-family:var(--f-mono);font-size:11px;padding:3px 8px;border-radius:999px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:rgba(238,241,248,.12);color:var(--star)}
+.btn{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);background:var(--star);border-radius:999px;font-weight:500;white-space:nowrap;transition:background .3s,transform .4s var(--spring)}
+.btn:hover{background:var(--gold);transform:scale(1.04)}
+.btn:active{transform:scale(.97)}
+.btn .ar{transition:transform .4s var(--spring)}
+.btn:hover .ar{transform:translateX(4px)}
+.nav .btn{font-size:12px;padding:5px 13px}
+.more{font-size:17px;color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:4px}
+.more:hover{text-decoration:underline;text-underline-offset:4px}
+
+/* shared screen */
+.scr{min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(36px,6vh,64px);padding-block:96px;text-align:center}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold);margin:0}
+.head{display:flex;flex-direction:column;align-items:center;gap:14px}
+.scr h2,.loop h2{font-family:var(--f-display);font-weight:200;font-size:clamp(32px,5.4vw,68px);line-height:1.15;margin:0;max-width:16em;text-wrap:balance}
+.scr .sub,.loop .sub{color:var(--mist);font-size:clamp(15px,1.6vw,18px);margin:0}
+:root:lang(en) .scr h2,:root:lang(en) .loop h2{letter-spacing:-.01em}
+/* headline fills with light as it scrolls into place */
+.fill{background:linear-gradient(90deg,var(--star) 0 50%,var(--dim) 50% 100%);background-size:200% 100%;background-position:calc((1 - var(--h,1)) * 100%) 0;-webkit-background-clip:text;background-clip:text;color:transparent}
+/* visuals rise and settle as they enter */
+.viz{transform:translateY(calc((1 - var(--e,1)) * 70px)) scale(calc(.9 + .1 * var(--e,1)));opacity:calc(.3 + .7 * var(--e,1));will-change:transform}
+
+/* ---------- landing ---------- */
+.hero{flex-direction:row;flex-wrap:wrap;gap:clamp(40px,8vw,120px);text-align:left;padding-block:40px 80px}
+.hero .copy{display:flex;flex-direction:column;gap:22px;max-width:540px;min-width:0;flex:1 1 320px}
+.hero h1{font-family:var(--f-display);font-weight:200;font-size:clamp(44px,7.4vw,96px);line-height:1.05;margin:0;text-wrap:balance}
+:root:lang(en) .hero h1{letter-spacing:-.02em}
+.hero .lead{font-family:var(--f-display);font-weight:300;font-size:clamp(18px,2.2vw,24px);color:var(--mist);margin:0}
+.ctas{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:10px}
+.ctas .btn{font-size:16px;padding:12px 24px}
+.avail{display:inline-flex;align-items:center;gap:8px}
+.avail i{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.3}}
+/* load sequence */
+.js .ld{animation:rise 1s var(--spring) both;animation-delay:var(--d,0s)}
+.js .w{display:inline-block;animation:word 1s var(--spring) both;animation-delay:calc(.15s + var(--k) * .045s)}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}}
+@keyframes word{from{opacity:0;transform:translateY(.45em);filter:blur(10px)}}
+
+/* staff badge */
+.bwrap{perspective:1100px;flex:none;width:min(320px,100%)}
+.js .bwrap{animation:rise 1.2s var(--spring) both .35s}
+.float{animation:float 7s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px)}}
+.badge{position:relative;border:1px solid var(--line);border-radius:22px;background:linear-gradient(160deg,rgba(28,30,44,.88),rgba(10,11,18,.92));padding:22px 22px 18px;box-shadow:0 40px 120px rgba(217,196,156,.1),inset 0 1px 0 rgba(255,255,255,.06);display:flex;flex-direction:column;gap:18px;text-align:left;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .5s var(--spring);transform-style:preserve-3d}
+.badge::before{content:"";position:absolute;top:-14px;left:50%;width:56px;height:10px;margin-left:-28px;border-radius:6px;border:1px solid var(--line);background:var(--ink)}
+.badge::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:radial-gradient(420px circle at var(--mx,30%) var(--my,0%),rgba(255,248,232,.13),transparent 45%);mix-blend-mode:screen}
+.badge .top{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;color:var(--mist)}
+.badge .top b{font-family:var(--f-mark);font-weight:400;letter-spacing:.36em;color:var(--star)}
+.avatar{position:relative;width:132px;height:132px;margin:6px auto 0;border-radius:50%}
+.avatar .core{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle,#fff8e8 0 6%,rgba(217,196,156,.55) 16%,rgba(217,196,156,.08) 46%,transparent 70%);animation:breathe 4s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.08)}}
+.avatar .orbit{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(217,196,156,.25);animation:spin 14s linear infinite}
+.avatar .orbit::after{content:"";position:absolute;top:-3px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.avatar .orbit.o2{inset:18px;border-color:rgba(238,241,248,.12);animation-duration:9s;animation-direction:reverse}
+.avatar .orbit.o2::after{background:var(--star);box-shadow:0 0 8px var(--star);width:4px;height:4px;margin-left:-2px;top:-2px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.badge .name{text-align:center;display:flex;flex-direction:column;gap:2px}
+.badge .name b{font-family:var(--f-mark);font-weight:400;font-size:22px;letter-spacing:.18em}
+.badge .name span{font-size:13px;color:var(--gold);letter-spacing:.1em}
+.badge dl{margin:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.badge dl div{display:flex;justify-content:space-between;gap:12px;padding-block:9px;border-bottom:1px solid var(--line);font-size:13px}
+.badge dt{color:var(--mist);font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding-top:3px}
+.badge dd{margin:0;text-align:right}
+.live{display:inline-flex;align-items:center;gap:7px}
+.live i{width:6px;height:6px;border-radius:50%;background:var(--ok);box-shadow:0 0 10px var(--ok);animation:pulse 2.4s ease-in-out infinite}
+.barcode{height:26px;background:repeating-linear-gradient(90deg,var(--mist) 0 1px,transparent 1px 3px,var(--mist) 3px 5px,transparent 5px 6px,var(--mist) 6px 7px,transparent 7px 10px);opacity:.35;border-radius:2px}
+
+/* ---------- 1: brief → execution sheet ---------- */
+.brief{display:grid;grid-template-columns:minmax(0,1fr) 56px minmax(0,1fr);gap:16px;align-items:center;width:100%;max-width:980px;text-align:left}
+.who{font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mist);margin:0 0 10px}
+.bubble{background:var(--star);color:var(--ink);border-radius:20px 20px 20px 6px;padding:20px 22px;font-size:clamp(15px,1.45vw,17px);line-height:1.8;font-weight:400}
+.bubble mark{background:rgba(5,6,11,.07);color:inherit;border-radius:4px;padding:1px 3px;box-shadow:inset 0 -2px 0 var(--gold);transition:background .4s}
+.bubble mark.hot{background:rgba(217,196,156,.45)}
+.bubble sup,.sheet .n{font-family:var(--f-mono);font-size:10px;font-weight:400}
+.bubble sup{color:#8a6d3b;margin-left:2px}
+.arrow{display:flex;justify-content:center}
+.arrow svg{width:56px;height:24px;overflow:visible}
+.arrow path{fill:none;stroke:var(--gold);stroke-width:1.2}
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px 20px;backdrop-filter:blur(8px)}
+.sheet .hd{display:flex;justify-content:space-between;font-family:var(--f-mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);padding-bottom:10px;border-bottom:1px solid var(--line)}
+.sheet ul{list-style:none;margin:0;padding:0}
+.sheet li{display:grid;grid-template-columns:22px 6.5em minmax(0,1fr) 18px;gap:10px;align-items:center;padding-block:7px;border-bottom:1px solid var(--line);font-size:13px;border-radius:6px;transition:background .4s}
+.sheet li.hot{background:rgba(217,196,156,.1)}
+.sheet .n{width:18px;height:18px;border-radius:50%;border:1px solid var(--gold);color:var(--gold);display:grid;place-items:center}
+.sheet .k{color:var(--mist);font-size:12px}
+.sheet .ck{color:var(--ok);font-size:14px;text-align:right}
+.stamp{margin-top:14px;display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:var(--gold);border:1px solid var(--gold);border-radius:4px;padding:4px 10px;transform:rotate(-3deg)}
+.on .sheet li{animation:rowin .5s both;animation-delay:calc(.35s + var(--i)*.22s)}
+.on .sheet .ck{animation:pop .4s var(--spring) both;animation-delay:calc(.6s + var(--i)*.22s)}
+.on .stamp{animation:stamp .5s var(--spring) both;animation-delay:2.5s}
+.on .arrow path{stroke-dasharray:80;animation:dash 1s both .1s}
+@keyframes rowin{from{opacity:0;transform:translateX(-8px)}}
+@keyframes pop{from{opacity:0;transform:scale(.3)}}
+@keyframes stamp{from{opacity:0;transform:rotate(-3deg) scale(1.8)}}
+@keyframes dash{from{stroke-dashoffset:80}}
+
+/* ---------- 2: the loop (scrubbed by scroll) ---------- */
+.loop{min-height:150svh}
+.loop .stick{position:sticky;top:52px;min-height:calc(100svh - 52px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(28px,5vh,56px);width:100%}
+.loopviz{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:clamp(32px,6vw,80px);width:100%;max-width:1000px}
+.ringbox{position:relative;width:min(440px,100%);aspect-ratio:540/420}
+.ringbox svg{width:100%;height:100%;display:block}
+.track{fill:none;stroke:var(--dim);stroke-width:1}
+.arc{fill:none;stroke:var(--gold);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:var(--off,0);stroke-linecap:round;filter:drop-shadow(0 0 6px rgba(217,196,156,.6))}
+.node circle{fill:var(--ink);stroke:var(--dim);stroke-width:1.5;transition:fill .4s,stroke .4s}
+.node text{font-family:var(--f-body);font-size:17px;fill:var(--mist);transition:fill .4s}
+.node.lit circle{fill:var(--gold);stroke:var(--gold)}
+.node.lit text{fill:var(--star)}
+.ringbox .avatar{position:absolute;left:50%;top:50%;width:110px;height:110px;margin:-55px 0 0 -55px;transform:rotate(var(--rot,0deg))}
+.vs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 28px;min-width:0}
+.vs div{display:flex;align-items:center;gap:12px;text-align:left;font-size:14px;color:var(--mist)}
+.vs svg{width:44px;height:44px;flex:none;transform:rotate(-90deg)}
+.vs .t{fill:none;stroke:var(--dim);stroke-width:3}
+.vs .s{fill:none;stroke:var(--mist);stroke-width:3;stroke-linecap:round}
+.vs .me{color:var(--star);font-weight:500}
+.vs .me .s{stroke:var(--gold);stroke-dasharray:1;stroke-dashoffset:var(--off,0)}
+
+/* ---------- 3: learning ---------- */
+.learn{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;width:100%;max-width:900px;text-align:left}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;backdrop-filter:blur(8px);min-width:0;display:flex;flex-direction:column;gap:14px;transition:transform .5s var(--spring),border-color .5s}
+.panel:hover{transform:translateY(-4px);border-color:rgba(217,196,156,.3)}
+.panel h3{margin:0;font-family:var(--f-mono);font-weight:400;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mist);display:flex;justify-content:space-between}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:13px;background:rgba(238,241,248,.04)}
+.chip.add{border-style:dashed;color:var(--mist)}
+.on .chip{animation:pop .5s var(--spring) both;animation-delay:calc(.3s + var(--i)*.16s)}
+.pb{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.pb li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;font-size:13px;padding-block:8px;border-bottom:1px solid var(--line)}
+.pb .id{font-family:var(--f-mono);font-size:10px;color:var(--mist)}
+.pill{font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;border-radius:999px;padding:3px 8px;white-space:nowrap}
+.pill.y{color:var(--ok);border:1px solid rgba(159,212,176,.4)}
+.pill.x{color:var(--no);border:1px solid rgba(217,154,154,.4)}
+.pill.w{color:var(--gold);border:1px solid rgba(217,196,156,.4)}
+.prog{grid-column:2/4;height:3px;background:var(--dim);border-radius:2px;overflow:hidden}
+.prog i{display:block;height:100%;width:68%;background:var(--gold)}
+.on .prog i{animation:grow 1.6s var(--spring) both .9s}
+@keyframes grow{from{width:0}}
+.on .pb li{animation:rowin .5s both;animation-delay:calc(.4s + var(--i)*.25s)}
+.note{font-size:11px;color:var(--mist);margin:0}
+
+/* ---------- final: open the app ---------- */
+.hire{gap:30px}
+.hire .avatar{width:180px;height:180px;margin:0}
+.hire h2{font-size:clamp(40px,7vw,92px)}
+.hire .btn{font-size:18px;padding:16px 34px;box-shadow:0 0 0 0 rgba(217,196,156,.5);animation:halo 2.8s ease-out infinite}
+@keyframes halo{0%{box-shadow:0 0 0 0 rgba(217,196,156,.45)}70%,100%{box-shadow:0 0 0 22px rgba(217,196,156,0)}}
+.url{font-family:var(--f-mono);font-size:12px;color:var(--mist);margin:0;word-break:break-all}
+
+footer{border-top:1px solid var(--line);padding-block:24px 36px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:12px;color:var(--mist)}
+footer p{margin:0;max-width:46em}
+
+@media (max-width:860px){.links{display:none}}
+@media (max-width:760px){
+  .brief{grid-template-columns:1fr}
+  .arrow svg{transform:rotate(90deg)}
+  .learn{grid-template-columns:1fr}
+  .hero{text-align:center;justify-content:center}
+  .hero .copy{align-items:center}
+  .ctas{justify-content:center}
+}
+@media (max-width:420px){.sheet li{grid-template-columns:22px 5.5em minmax(0,1fr) 16px}.lang button{padding:3px 6px}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .viz{transform:none;opacity:1}
+  .fill{background-position:0 0}
+}
+</style>
+</head>
+<body>
+
+<canvas id="sky" aria-hidden="true"></canvas>
+
+<header class="nav g">
+  <div class="in">
+    <a class="mark" href="#top" aria-label="Asteron">ASTERON</a>
+    <nav class="links" aria-label="Sections">
+      <a href="#control" data-i="n1"></a>
+      <a href="#loop" data-i="n2"></a>
+      <a href="#learn" data-i="n3"></a>
+    </nav>
+    <div class="right">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en">EN</button>
+        <button type="button" data-lang="hans">简</button>
+        <button type="button" data-lang="hant">繁</button>
+      </div>
+      <a class="btn app" href="https://asteron.asteron-trade.workers.dev/" target="_blank" rel="noopener" data-i="navOpen"></a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- Landing: meet your trader -->
+  <section class="scr hero g">
+    <div class="copy">
+      <p class="eyebrow ld" style="--d:.05s"><span class="avail"><i></i><span data-i="avail"></span></span></p>
+      <h1 id="h1" data-i="h1"></h1>
+      <p class="lead ld" style="--d:.7s" data-i="lead"></p>
+      <div class="ctas ld" style="--d:.9s">
+        <a class="btn app" href="https://asteron.asteron-trade.workers.dev/" target="_blank" rel="noopener"><span data-i="open"></span><span class="ar" aria-hidden="true">→</span></a>
+        <a class="more" href="#control"><span data-i="more"></span><span aria-hidden="true">›</span></a>
+      </div>
+    </div>
+    <div class="bwrap" id="bwrap">
+      <div class="float">
+        <div class="badge" id="badge" aria-label="Asteron staff badge">
+          <div class="top"><b>ASTERON</b><span>ID · 001</span></div>
+          <div class="avatar" aria-hidden="true"><div class="core"></div><div class="orbit"></div><div class="orbit o2"></div></div>
+          <div class="name"><b>ASTERON</b><span data-i="role"></span></div>
+          <dl>
+            <div><dt data-i="bRep"></dt><dd data-i="bRepV"></dd></div>
+            <div><dt data-i="bHrs"></dt><dd class="mono">24 / 7</dd></div>
+            <div><dt data-i="bDesk"></dt><dd>Hyperliquid</dd></div>
+            <div><dt data-i="bSt"></dt><dd><span class="live"><i></i><span data-i="bStV"></span></span></dd></div>
+          </dl>
+          <div class="barcode" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1. Your intent is what gets executed -->
+  <section class="scr g rvl" id="control">
+    <div class="head">
+      <p class="eyebrow" data-i="e1"></p>
+      <h2 class="fill" data-i="h2a"></h2>
+    </div>
+    <div class="brief viz">
+      <div><p class="who" data-i="youLbl"></p><div class="bubble" id="bubble" data-i="bubble"></div></div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 56 24"><path d="M0 12H54M46 5l8 7-8 7"/></svg></div>
+      <div class="sheet">
+        <div class="hd"><span data-i="sheetT"></span><span>ASTERON · v1</span></div>
+        <ul id="sheet">
+          <li style="--i:0" data-n="1"><span class="n">1</span><span class="k" data-i="k1"></span><span data-i="w1"></span><span class="ck">✓</span></li>
+          <li style="--i:1" data-n="2"><span class="n">2</span><span class="k" data-i="k2"></span><span data-i="w2"></span><span class="ck">✓</span></li>
+          <li style="--i:2" data-n="3"><span class="n">3</span><span class="k" data-i="k3"></span><span data-i="w3"></span><span class="ck">✓</span></li>
+          <li style="--i:3" data-n="4"><span class="n">4</span><span class="k" data-i="k4"></span><span data-i="w4"></span><span class="ck">✓</span></li>
+          <li style="--i:4" data-n="5"><span class="n">5</span><span class="k" data-i="k5"></span><span data-i="w5"></span><span class="ck">✓</span></li>
+          <li style="--i:5" data-n="6"><span class="n">6</span><span class="k" data-i="k6"></span><span data-i="w6"></span><span class="ck">✓</span></li>
+          <li style="--i:6" data-n="7"><span class="n">7</span><span class="k" data-i="k7"></span><span data-i="w7"></span><span class="ck">✓</span></li>
+          <li style="--i:7" data-n="8"><span class="n">8</span><span class="k" data-i="k8"></span><span data-i="w8"></span><span class="ck">✓</span></li>
+        </ul>
+        <span class="stamp" data-i="stamp"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. The whole loop, one trader -->
+  <section class="loop g" id="loop">
+    <div class="stick">
+      <div class="head">
+        <p class="eyebrow" data-i="e2"></p>
+        <h2 class="fill" data-i="h2b"></h2>
+        <p class="sub" data-i="sub2"></p>
+      </div>
+      <div class="loopviz">
+        <div class="ringbox">
+          <svg viewBox="-70 -10 540 420" aria-hidden="true">
+            <circle class="track" cx="200" cy="200" r="150"/>
+            <circle class="arc" cx="200" cy="200" r="150" pathLength="1" transform="rotate(-90 200 200)"/>
+            <g class="node"><circle cx="200" cy="50" r="6"/><text x="200" y="22" text-anchor="middle" data-i="L1"></text></g>
+            <g class="node"><circle cx="329.9" cy="125" r="6"/><text x="348" y="118" text-anchor="start" data-i="L2"></text></g>
+            <g class="node"><circle cx="329.9" cy="275" r="6"/><text x="348" y="290" text-anchor="start" data-i="L3"></text></g>
+            <g class="node"><circle cx="200" cy="350" r="6"/><text x="200" y="388" text-anchor="middle" data-i="L4"></text></g>
+            <g class="node"><circle cx="70.1" cy="275" r="6"/><text x="52" y="290" text-anchor="end" data-i="L5"></text></g>
+            <g class="node"><circle cx="70.1" cy="125" r="6"/><text x="52" y="118" text-anchor="end" data-i="L6"></text></g>
+          </svg>
+          <div class="avatar" aria-hidden="true"><div class="core"></div><div class="orbit"></div><div class="orbit o2"></div></div>
+        </div>
+        <div class="vs" aria-label="Coverage compared">
+          <div><svg viewBox="0 0 44 44"><circle class="t" cx="22" cy="22" r="18"/><circle class="s" cx="22" cy="22" r="18" pathLength="6" stroke-dasharray="1 5" stroke-dashoffset="-2"/></svg><span data-i="c1"></span></div>
+          <div><svg viewBox="0 0 44 44"><circle class="t" cx="22" cy="22" r="18"/><circle class="s" cx="22" cy="22" r="18" pathLength="6" stroke-dasharray="1 5" stroke-dashoffset="-4"/></svg><span data-i="c2"></span></div>
+          <div><svg viewBox="0 0 44 44"><circle class="t" cx="22" cy="22" r="18"/><circle class="s" cx="22" cy="22" r="18" pathLength="6" stroke-dasharray="1 5" stroke-dashoffset="0"/></svg><span data-i="c3"></span></div>
+          <div class="me"><svg viewBox="0 0 44 44"><circle class="t" cx="22" cy="22" r="18"/><circle class="s" cx="22" cy="22" r="18" pathLength="1"/></svg><span>Asteron</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Learns you, learns the market -->
+  <section class="scr g rvl" id="learn">
+    <div class="head">
+      <p class="eyebrow" data-i="e3"></p>
+      <h2 class="fill" data-i="h2c"></h2>
+    </div>
+    <div class="learn viz">
+      <div class="panel">
+        <h3><span data-i="pYou"></span><span>memory.md</span></h3>
+        <div class="chips">
+          <span class="chip" style="--i:0" data-i="m1"></span>
+          <span class="chip" style="--i:1" data-i="m2"></span>
+          <span class="chip" style="--i:2" data-i="m3"></span>
+          <span class="chip" style="--i:3" data-i="m4"></span>
+          <span class="chip" style="--i:4" data-i="m5"></span>
+          <span class="chip add" style="--i:5">+</span>
+        </div>
+      </div>
+      <div class="panel">
+        <h3><span data-i="pMkt"></span><span>playbook</span></h3>
+        <ul class="pb">
+          <li style="--i:0"><span class="id">E-118</span><span data-i="p1"></span><span class="pill y" data-i="sY"></span></li>
+          <li style="--i:1"><span class="id">E-031</span><span data-i="p2"></span><span class="pill x" data-i="sX"></span></li>
+          <li style="--i:2"><span class="id">E-204</span><span data-i="p3"></span><span class="pill w">19 / 28d</span><span class="prog" aria-hidden="true"><i></i></span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="note" data-i="illus"></p>
+  </section>
+
+  <!-- Final: open the app -->
+  <section class="scr hire g rvl" id="hire">
+    <div class="avatar viz" aria-hidden="true"><div class="core"></div><div class="orbit"></div><div class="orbit o2"></div></div>
+    <div class="head">
+      <p class="eyebrow"><span class="avail"><i></i><span data-i="avail"></span></span></p>
+      <h2 class="fill" data-i="h2d"></h2>
+    </div>
+    <a class="btn app" href="https://asteron.asteron-trade.workers.dev/" target="_blank" rel="noopener"><span data-i="hireNow"></span><span class="ar" aria-hidden="true">→</span></a>
+    <p class="url">asteron.asteron-trade.workers.dev</p>
+  </section>
+</main>
+
+<footer class="g">
+  <p>© 2026 Asteron</p>
+  <p data-i="foot"></p>
+</footer>
+
+<script>
+(()=>{
+const doc=document.documentElement;doc.classList.add('js');
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const ease=v=>1-Math.pow(1-v,3);
+
+/* ---------- copy: en / 简 / 繁 ---------- */
+const T={
+en:{
+  n1:'Control',n2:'Full loop',n3:'Learning',navOpen:'Open app',
+  avail:'Now available',open:'Open Asteron',more:'Learn more',
+  h1:'Meet your new trader.',lead:'You’re the boss. You set the plan. Asteron executes.',
+  role:'AI Trader',bRep:'Reports to',bRepV:'You',bHrs:'Hours',bDesk:'Desk',bSt:'Status',bStV:'On duty',
+  e1:'Your call',h2a:'You give the brief. It executes, word for word.',
+  youLbl:'You · the boss',
+  bubble:'<mark data-n="1">TSLA perp on Hyperliquid<sup>1</sup></mark>, <mark data-n="2">4h candles<sup>2</sup></mark>, a HIP-3 stock trend pullback. Long only <mark data-n="3">while price is above the daily EMA20<sup>3</sup></mark>. Enter when <mark data-n="4">4h RSI(14) drops below 45<sup>4</sup></mark>. Exit when <mark data-n="5">RSI(14) tops 70 or a 5× ATR trailing stop hits<sup>5</sup></mark>. Size by <mark data-n="6">5% risk per trade<sup>6</sup></mark> against the stop distance, <mark data-n="7">leverage capped at 3×<sup>7</sup></mark>. <mark data-n="8">Close everything at a 30% account drawdown<sup>8</sup></mark>.',
+  sheetT:'Execution sheet',k1:'Market',w1:'TSLA-PERP · HIP-3',k2:'Timeframe',w2:'4h',k3:'Filter',w3:'Long only, above daily EMA20',k4:'Entry',w4:'RSI(14) &lt; 45',k5:'Exit',w5:'RSI &gt; 70 or 5× ATR trail',k6:'Sizing',w6:'5% risk / trade',k7:'Leverage',w7:'≤ 3×',k8:'Kill switch',w8:'−30% drawdown → close all',
+  stamp:'NOTHING ADDED · NOTHING SWAPPED',
+  e2:'The full loop',h2b:'From idea to review, one trader does it all.',sub2:'Other tools hand you one piece.',
+  L1:'Idea',L2:'Design',L3:'Test',L4:'Deploy',L5:'Run',L6:'Review',
+  c1:'Backtester',c2:'Trading bot',c3:'Signal channel',
+  e3:'Learning',h2c:'The longer it works for you, the better it knows you. And the market.',
+  pYou:'About you',m1:'Trades BTC & ETH',m2:'Leverage ≤ 2×',m3:'Prefers 4h',m4:'Declined grid bots',m5:'Brief at 08:00',
+  pMkt:'About the market',p1:'Funding spikes fade within 8h',p2:'BTC 4h plain momentum',p3:'ETH weekend breakouts',sY:'Confirmed',sX:'Disproven',
+  illus:'Illustrative examples',
+  h2d:'Your trader is ready to start.',hireNow:'Hire your trader',
+  foot:'Asteron is currently on testnet. No user funds run on mainnet yet. Nothing on this page is investment advice.'
+},
+hans:{
+  n1:'掌控',n2:'闭环',n3:'学习',navOpen:'进入',
+  avail:'现已上线',open:'进入 Asteron',more:'了解更多',
+  h1:'认识一下，你的新交易员。',lead:'你是老板。你定方向，他来执行。',
+  role:'AI 交易员',bRep:'汇报对象',bRepV:'你',bHrs:'工作时间',bDesk:'交易台',bSt:'状态',bStV:'已上岗',
+  e1:'你说了算',h2a:'你下指令，他逐字执行。',
+  youLbl:'你 · 老板',
+  bubble:'<mark data-n="1">Hyperliquid TSLA 永续合约<sup>1</sup></mark>，<mark data-n="2">4h K 线<sup>2</sup></mark>，HIP-3 美股趋势回调。<mark data-n="3">价格在日线 EMA20 之上才做多<sup>3</sup></mark>；<mark data-n="4">4 小时 RSI(14) 回落到 45 以下时入场<sup>4</sup></mark>；<mark data-n="5">RSI(14) 高于 70 或触发 5 倍 ATR 跟踪止损时离场<sup>5</sup></mark>；按<mark data-n="6">每笔风险 5%<sup>6</sup></mark>与跟踪止损距离定仓，<mark data-n="7">杠杆上限 3 倍<sup>7</sup></mark>；<mark data-n="8">账户回撤 30% 全部平仓<sup>8</sup></mark>。',
+  sheetT:'执行单',k1:'标的',w1:'TSLA 永续 · HIP-3',k2:'周期',w2:'4 小时',k3:'过滤',w3:'日线 EMA20 上方只做多',k4:'入场',w4:'RSI(14) &lt; 45',k5:'离场',w5:'RSI &gt; 70 或 5×ATR 跟踪止损',k6:'仓位',w6:'每笔风险 5%',k7:'杠杆',w7:'≤ 3 倍',k8:'熔断',w8:'回撤 30% 全部平仓',
+  stamp:'不加一条 · 不换一条',
+  e2:'闭环',h2b:'从想法到复盘，他一个人全包。',sub2:'别的工具，只给你其中一段。',
+  L1:'想法',L2:'设计',L3:'检验',L4:'部署',L5:'盯盘',L6:'复盘',
+  c1:'回测工具',c2:'交易机器人',c3:'信号群',
+  e3:'学习',h2c:'他越干越懂你，也越懂市场。',
+  pYou:'关于你',m1:'常做 BTC、ETH',m2:'杠杆不超过 2 倍',m3:'偏好 4 小时',m4:'拒绝过网格',m5:'08:00 收简报',
+  pMkt:'关于市场',p1:'资金费率尖峰 8 小时内回落',p2:'BTC 4 小时简单动量',p3:'ETH 周末突破',sY:'已确认',sX:'已证伪',
+  illus:'示意内容',
+  h2d:'你的交易员，已经到岗。',hireNow:'立即雇用',
+  foot:'Asteron 当前处于测试网阶段，用户资金尚未在主网运行。本页内容不构成任何投资建议。'
+},
+hant:{
+  n1:'掌控',n2:'閉環',n3:'學習',navOpen:'進入',
+  avail:'現已上線',open:'進入 Asteron',more:'了解更多',
+  h1:'認識一下，你的新交易員。',lead:'你是老闆。你定方向，他來執行。',
+  role:'AI 交易員',bRep:'匯報對象',bRepV:'你',bHrs:'工作時間',bDesk:'交易台',bSt:'狀態',bStV:'已上崗',
+  e1:'你說了算',h2a:'你下指令，他逐字執行。',
+  youLbl:'你 · 老闆',
+  bubble:'<mark data-n="1">Hyperliquid TSLA 永續合約<sup>1</sup></mark>，<mark data-n="2">4h K 線<sup>2</sup></mark>，HIP-3 美股趨勢回調。<mark data-n="3">價格在日線 EMA20 之上才做多<sup>3</sup></mark>；<mark data-n="4">4 小時 RSI(14) 回落到 45 以下時進場<sup>4</sup></mark>；<mark data-n="5">RSI(14) 高於 70 或觸發 5 倍 ATR 移動停損時離場<sup>5</sup></mark>；按<mark data-n="6">每筆風險 5%<sup>6</sup></mark>與移動停損距離定倉，<mark data-n="7">槓桿上限 3 倍<sup>7</sup></mark>；<mark data-n="8">帳戶回撤 30% 全部平倉<sup>8</sup></mark>。',
+  sheetT:'執行單',k1:'標的',w1:'TSLA 永續 · HIP-3',k2:'週期',w2:'4 小時',k3:'過濾',w3:'日線 EMA20 上方只做多',k4:'進場',w4:'RSI(14) &lt; 45',k5:'離場',w5:'RSI &gt; 70 或 5×ATR 移動停損',k6:'倉位',w6:'每筆風險 5%',k7:'槓桿',w7:'≤ 3 倍',k8:'熔斷',w8:'回撤 30% 全部平倉',
+  stamp:'不加一條 · 不換一條',
+  e2:'閉環',h2b:'從想法到復盤，他一個人全包。',sub2:'別的工具，只給你其中一段。',
+  L1:'想法',L2:'設計',L3:'檢驗',L4:'部署',L5:'盯盤',L6:'復盤',
+  c1:'回測工具',c2:'交易機器人',c3:'訊號群',
+  e3:'學習',h2c:'他越幹越懂你，也越懂市場。',
+  pYou:'關於你',m1:'常做 BTC、ETH',m2:'槓桿不超過 2 倍',m3:'偏好 4 小時',m4:'拒絕過網格',m5:'08:00 收簡報',
+  pMkt:'關於市場',p1:'資金費率尖峰 8 小時內回落',p2:'BTC 4 小時簡單動量',p3:'ETH 週末突破',sY:'已確認',sX:'已證偽',
+  illus:'示意內容',
+  h2d:'你的交易員，已經到崗。',hireNow:'立即僱用',
+  foot:'Asteron 目前處於測試網階段，用戶資金尚未在主網運行。本頁內容不構成任何投資建議。'
+}};
+const LANGTAG={en:'en',hans:'zh-Hans',hant:'zh-Hant'};
+let D=T.en,L='en';
+try{const s=localStorage.getItem('asteron.lang');if(T[s])L=s}catch(e){}
+
+/* headline enters word by word (character by character in Chinese) */
+const h1=document.getElementById('h1');
+function splitH1(){
+  const txt=D.h1,parts=L==='en'?txt.split(/(\s+)/):[...txt];let k=0;
+  h1.setAttribute('aria-label',txt);
+  h1.innerHTML=parts.map(w=>/^\s+$/.test(w)?w:`<span class="w" aria-hidden="true" style="--k:${k++}">${w}</span>`).join('');
+}
+function setLang(l){
+  L=l;D=T[l];doc.lang=LANGTAG[l];
+  document.querySelectorAll('[data-i]').forEach(e=>e.innerHTML=D[e.dataset.i]);
+  document.querySelectorAll('.lang button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===l));
+  splitH1();bindMarks();
+  try{localStorage.setItem('asteron.lang',l)}catch(e){}
+  if(typeof onScroll==='function')onScroll();
+}
+document.querySelectorAll('.lang button').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.lang)));
+
+/* hovering an item in the brief highlights its row on the execution sheet, and back */
+const sheetRows=[...document.querySelectorAll('#sheet li')];
+function hot(n,on){
+  document.querySelectorAll(`#bubble mark[data-n="${n}"]`).forEach(m=>m.classList.toggle('hot',on));
+  sheetRows.forEach(r=>{if(r.dataset.n===n)r.classList.toggle('hot',on)});
+}
+function bindMarks(){
+  document.querySelectorAll('#bubble mark').forEach(m=>{
+    m.addEventListener('mouseenter',()=>hot(m.dataset.n,true));m.addEventListener('mouseleave',()=>hot(m.dataset.n,false));
+  });
+}
+sheetRows.forEach(r=>{r.addEventListener('mouseenter',()=>hot(r.dataset.n,true));r.addEventListener('mouseleave',()=>hot(r.dataset.n,false))});
+
+/* ---------- badge tilts toward the pointer ---------- */
+const badge=document.getElementById('badge'),bw=document.getElementById('bwrap');
+if(!RM&&matchMedia('(hover: hover)').matches){
+  const hero=document.querySelector('.hero');
+  hero.addEventListener('pointermove',e=>{
+    const r=bw.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+    badge.style.setProperty('--ry',(clamp(x,-.5,1.5)-.5)*16+'deg');
+    badge.style.setProperty('--rx',(.5-clamp(y,-.5,1.5))*12+'deg');
+    badge.style.setProperty('--mx',clamp(x,0,1)*100+'%');badge.style.setProperty('--my',clamp(y,0,1)*100+'%');
+  });
+  hero.addEventListener('pointerleave',()=>{badge.style.setProperty('--rx','0deg');badge.style.setProperty('--ry','0deg')});
+}
+
+/* ---------- scroll-linked motion ---------- */
+const rvl=[...document.querySelectorAll('.rvl')];
+const vizs=[...document.querySelectorAll('.viz')];
+const fills=[...document.querySelectorAll('.fill')];
+const loop=document.getElementById('loop'),arc=loop.querySelector('.arc'),meArc=loop.querySelector('.vs .me .s'),nodes=[...loop.querySelectorAll('.node')],loopAv=loop.querySelector('.avatar');
+const navLinks=[...document.querySelectorAll('.links a')];
+function onScroll(){
+  if(RM)return;
+  const vh=innerHeight;
+  vizs.forEach(v=>{const r=v.getBoundingClientRect();v.style.setProperty('--e',ease(clamp((vh-r.top)/(vh*.75))).toFixed(3))});
+  fills.forEach(h=>{const r=h.getBoundingClientRect();h.style.setProperty('--h',clamp((vh*.9-r.top)/(vh*.4)).toFixed(3))});
+  const lr=loop.getBoundingClientRect();
+  const q=clamp((vh*.55-lr.top)/Math.max(1,lr.height-vh*.55));
+  arc.style.setProperty('--off',(1-q).toFixed(4));meArc.style.setProperty('--off',(1-q).toFixed(4));
+  nodes.forEach((n,i)=>n.classList.toggle('lit',q>=i/6+.01));
+  loopAv.style.setProperty('--rot',(q*360).toFixed(1)+'deg');
+  let cur=null;navLinks.forEach(a=>{const s=document.querySelector(a.getAttribute('href')).getBoundingClientRect();if(s.top<vh*.5&&s.bottom>vh*.5)cur=a});
+  navLinks.forEach(a=>a.setAttribute('aria-current',a===cur));
+}
+let ticking=false;
+addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(()=>{onScroll();ticking=false})}},{passive:true});
+addEventListener('resize',onScroll);
+
+/* one-time entrance animations when a screen comes into view */
+if(!RM&&'IntersectionObserver' in window){
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target)}}),{threshold:.3});
+  rvl.forEach(s=>io.observe(s));
+}
+
+setLang(L);
+
+/* ---------- sky: drifting starfield with scroll parallax ---------- */
+const cv=document.getElementById('sky'),cx=cv.getContext('2d');
+let W,H,DPR,stars=[];
+function size(){DPR=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0)}
+function seed(){const N=W<700?130:240;stars=[];for(let i=0;i<N;i++)stars.push({x:Math.random(),y:Math.random(),z:.2+Math.random()*.8,r:.4+Math.random()*1.2,ph:Math.random()*6.28})}
+size();seed();addEventListener('resize',()=>{size();seed();if(RM)draw(0)});
+let mx=0,my=0;addEventListener('pointermove',e=>{mx=e.clientX/W-.5;my=e.clientY/H-.5},{passive:true});
+function draw(t){
+  cx.clearRect(0,0,W,H);
+  const sy=scrollY;
+  for(const s of stars){
+    const y=((s.y*H-sy*.12*s.z-t*.004*s.z-my*14*s.z)%H+H)%H,x=((s.x*W-mx*18*s.z)%W+W)%W;
+    const tw=RM?1:.55+.45*Math.sin(t*.0016+s.ph);
+    cx.fillStyle=`rgba(238,241,248,${((.25+.65*s.z)*tw).toFixed(3)})`;
+    cx.beginPath();cx.arc(x,y,s.r,0,6.283);cx.fill();
+  }
+}
+if(RM){draw(0);addEventListener('scroll',()=>draw(0),{passive:true})}
+else{const f=t=>{draw(t);requestAnimationFrame(f)};requestAnimationFrame(f)}
+})();
+</script>
+</body>
+</html>
